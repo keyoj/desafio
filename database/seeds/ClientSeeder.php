@@ -14,7 +14,7 @@ class ClientSeeder extends Seeder
     public function run()
     {
         Client::create(['name'=>'Jorge Cabezas','email'=>'jorge.cabezas@monguen.cl','join_date'=>"2020-01-03"]);
-        factory(Client::class, 50)->create()->each(function ($user)
+        factory(Client::class, 49)->create()->each(function ($user)
         {
             if(array_rand([false,true])){
                 $pagos=mt_rand(1,5);

@@ -33,7 +33,7 @@ class PaymentNewJob implements ShouldQueue
     public function handle()
     {
         $valor=PaymentsController::dolar($this->payment->payment_date);
-        $this->payment->clp_usd= number_format( $valor["value_dolar"], 2);
+        $this->payment->clp_usd= floatval(number_format( $valor["value_dolar"], 2));
         $this->payment->save();
     }
 }

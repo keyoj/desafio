@@ -13,7 +13,8 @@ class PaymentsController extends Controller
 {
     public function paymentsByClient (Request $request ){
         $client = Client::find($request->client);
-        // dd($client->payments);
+        if($client==null)
+            return collect(['error'=>"No existe el cliente"]);
         return collect($client->payments->sortByDesc('created_at'));
     }
     public function storeClientPayment ( Request $request ){
@@ -23,13 +24,15 @@ class PaymentsController extends Controller
         $data->forget('user_id');
         $data->put('client_id',1);
         $payment = Payment::create($data->toArray());
-        // dd($data,$payment);
-
         $client->payments()->save( $payment );
+        if($client==null)
+            return collect(['error'=>"No existe el cliente"]);
         PaymentNewJob::dispatch($payment)
                         // ->delay( now()->addMinutes(1) )
                         ;
+
         event(new PaymentNew( $payment ) );
+
         return collect($client->payments->sortByDesc('created_at'));
     }
 
@@ -41,14 +44,13 @@ class PaymentsController extends Controller
             $date=\Carbon\Carbon::now()->toDateString();
         }
 
-        $dolar = Payment::where('payment_date',$date)->first();
+        $paymentFind = Payment::where('payment_date',$date)->first();
 
-        if($dolar) {
-            return collect(['value_dolar'=>$dolar->clp_usd]);
+        if($paymentFind && $paymentFind->clp_usd!=null) {
+
+            return collect(['value_dolar'=>$paymentFind->clp_usd]);
         }
-
         // formato api https://mindicador.cl/api/{tipo_indicador}/{dd-mm-yyyy}
-// dd(\Carbon\Carbon::createFromFormat('Y-m-d', $date)->toDateString());
         $date = \Carbon\Carbon::createFromFormat('Y-m-d', $date);
         for($i=0;$i<=2;$i++){
 
@@ -57,10 +59,11 @@ class PaymentsController extends Controller
             $cliente = new \GuzzleHttp\Client();
             $res = $cliente->request('GET', $url);
             $response = json_decode($res->getBody());
+
             if($response->serie){
 
                 return collect(['value_dolar'=>$response->serie[0]->valor]);
-
+                break;
             }else{
                 continue;
             }

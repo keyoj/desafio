@@ -10,8 +10,12 @@ class Payment extends Model
     protected $primaryKey = 'uuid';
     public $incrementing = false;
     protected $keyType = 'string';
-    protected $fillable = ['expires_at','user_id','amount','client_id'];
+    protected $fillable = ['expires_at','user_id','amount','client_id','payment_date'];
     public function client(){
         return $this->belongsTo(Client::class);
+    }
+    public function getClpUsdAttribute($value)
+    {
+        return intval(number_format($value,0));
     }
 }
