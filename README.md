@@ -30,6 +30,7 @@ _8mo hacer pruebas de la api en un navegador o en postman_
 * [http://localhost:8080/api/clients](http://localhost:8080/api/clients)
 * [http://localhost:8080/api/payments?client=1](http://localhost:8080/api/payments?client=1)   -los ids disponibles son del 1 al 50
 ...
-*[http://localhost:8080/api/payments?client=50](http://localhost:8080/api/payments?client=50)
-POST para:
+* [http://localhost:8080/api/payments?client=50](http://localhost:8080/api/payments?client=50)
+
+_POST para:_
 * [http://localhost:8080/api/payments](http://localhost:8080/api/payments) -los datos mínimos son user_id (id de cliente existente), expires_at (formato YYYY-MM-DD), amount, payment_date (formato YYYY-MM-DD)
