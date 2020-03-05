@@ -15,10 +15,16 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        Registered::class => [
-            SendEmailVerificationNotification::class,
+        // Registered::class => [
+        //     SendEmailVerificationNotification::class,
+        // ],
+        'App\Events\PaymentNew' => [
+            'App\Listeners\SendPaymentNewNotification',
         ],
     ];
+
+
+
 
     /**
      * Register any events for your application.
@@ -30,5 +36,14 @@ class EventServiceProvider extends ServiceProvider
         parent::boot();
 
         //
+    }
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents()
+    {
+        return true;
     }
 }
