@@ -8,19 +8,19 @@ https://github.com/keyoj/desafio.git
 
 _2do ejecutar "composer install" dentro de la carpeta del proyecto (se asume que esta instalado composer)_
 
-_3ro renombrar archivo .env.example a .env y completar datos de bd y mailtrap
-4to ejecutar_
+_3ro renombrar archivo .env.example a .env y completar datos de bd y mailtrap_
+_4to ejecutar_
 ```
 php artisan key:generate
 ```
-_5to ejecutar " para borrar el contenido de la bd asociada y cargar datos de ejemplo_
+_5to ejecutar para borrar el contenido de la bd asociada y cargar datos de ejemplo_
 ```
 php artisan migrate:fresh --seed
 ```
 _6to ejecutar servidor para levantar servidor y..._
 ```
 php artisan serve --port 8080
-
+```
 _7mo en otra terminal ejecutar para correr worker de jobs_
 ```
 php artisan queue:work
